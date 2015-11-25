@@ -1,0 +1,5 @@
+name: SpigotJS
+description: JavaScript in Spigot
+version: 0.1.0
+author: Ian Macalinao <me@ian.pw>
+main: pw.ian.spigotjs.SpigotJS
