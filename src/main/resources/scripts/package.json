@@ -1,0 +1,7 @@
+{
+  "name": "my-spigot-server",
+  "description": "A Spigot Minecraft server.",
+  "version": "0.1.0",
+  "author": "Ian Macalinao <me@ian.pw>",
+  "main": "index.js"
+}

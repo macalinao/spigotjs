@@ -1,6 +1,9 @@
 package pw.ian.spigotjs;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
@@ -11,6 +14,7 @@ public class SpigotJS extends JavaPlugin {
 
   @Override
   public void onEnable() {
+    setupInitialScripts();
     ScriptEngine engine = new ScriptEngineManager().getEngineByName("nashorn");
     try {
       engine.eval(new InputStreamReader(this.getResource("jvm-npm.js")));
@@ -19,6 +23,22 @@ public class SpigotJS extends JavaPlugin {
       getLogger().severe("Could not load scripts!");
       ex.printStackTrace();
     }
+  }
+
+  private void setupInitialScripts() {
+    File pkg = new File("scripts/package.json");
+    if (pkg.exists()) return;
+
+    getLogger().info("scripts/ directory does not exist yet. Creating an initial package...");
+    try {
+      new File("scripts/").mkdir();
+      Files.copy(this.getResource("scripts/package.json"), new File("scripts/package.json").toPath());
+      Files.copy(this.getResource("scripts/index.js"), new File("scripts/index.js").toPath());
+    } catch (IOException ex) {
+      getLogger().severe("Could not copy initial scripts.");
+      ex.printStackTrace();
+    }
+    getLogger().info("Created.");
   }
 
 }
