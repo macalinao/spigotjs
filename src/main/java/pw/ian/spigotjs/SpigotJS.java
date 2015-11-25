@@ -4,9 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
+import javax.script.*;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -17,6 +15,10 @@ public class SpigotJS extends JavaPlugin {
     setupInitialScripts();
     ScriptEngine engine = new ScriptEngineManager().getEngineByName("nashorn");
     try {
+      Bindings bindings = engine.createBindings();
+      bindings.put("plugin", this);
+      bindings.put("server", getServer());
+      engine.setBindings(bindings, ScriptContext.GLOBAL_SCOPE);
       engine.eval(new InputStreamReader(this.getResource("jvm-npm.js")));
       engine.eval("require('./scripts')");
     } catch (ScriptException ex) {
