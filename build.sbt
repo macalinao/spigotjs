@@ -16,6 +16,8 @@ libraryDependencies ++= Seq(
 
 scalacOptions in Test += "-Yrangepos"
 
+assemblyOption in assembly := (assemblyOption in assembly).value.copy(includeScala = false)
+
 // META-INF discarding
 assemblyMergeStrategy in assembly := {
   case PathList("META-INF", xs @ _*) => MergeStrategy.discard
